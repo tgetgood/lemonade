@@ -1,0 +1,43 @@
+#+TITLE: Lemonade
+
+Experiment in higher order visual programming.
+
+Check out [[https://github.com/tgetgood/expanse][Expanse]] to see it in use.
+
+* Overview
+	This is both a library for doing vector graphics in a data driven idiomatic
+	clojure fashion
+
+	The name is a reference to a name I thought up for a presentation once. It's
+	not a great name, but it could be worse.
+* Breakdown
+	=lemonade.core=: The core graphics primitives.
+
+	=lemonade.math=: Mathematical and interop helpers.
+
+	=lemonade.geometry=: Geometric model of the rendered world to map back and
+	forth from screen coordinates to fibres of the render tree.
+
+	Renderers are in =lemonade.renderers.*=. There are currently only 2, an HTML
+	Canvas 2d rendering context renderer for the browser and a quil renderer for
+	JVM Clojure. Both renderers are working and should produce identical
+	results. I'd be much obliged to anyone who can point out where they don't.
+
+	The definition of shapes is probably going to change from one based on curves
+	and winding numbers as most graphics libraries do to a constructive
+	topology. That is glue together locally convex simply connected shapes to
+	produce non simple shapes, and subtract one shape from another. I'm still
+	thinking out the details.
+* Getting Started
+	[[https://github.com/tgetgood/expanse][Expanse]] is the place to go if you want to see Lemonade in action or play with
+	running code.
+* Testing
+	Having a fully declarative model of the UI allows headless testing of most UI
+	components. You can determine the exact pixel coordinates of any shape or the
+	colour of any pixel without rendering anything. At least in principle. Lemonade
+	itself needs some heavy testing to make sure this is true.
+* License
+	Copyright © 2018 Thomas Getgood
+
+	Distributed under the Eclipse Public License either version 1.0 or (at your
+	option) any later version.
