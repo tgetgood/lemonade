@@ -5,8 +5,9 @@ Experiment in higher order visual programming.
 Check out [[https://github.com/tgetgood/expanse][Expanse]] to see it in use.
 
 * Overview
-	This is both a library for doing vector graphics in a data driven idiomatic
-	clojure fashion
+	This is a library for doing vector graphics in a data driven idiomatic clojure
+	fashion. Feel free to think of it as an extension of lisp from the lambda
+	calculus to vector geometry. That's how I think of it in any case.
 
 	The name is a reference to a name I thought up for a presentation once. It's
 	not a great name, but it could be worse.
