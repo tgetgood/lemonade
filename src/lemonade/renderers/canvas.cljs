@@ -202,7 +202,8 @@
   (compile* [{[x1 y1] :from [x2 y2] :to [cx1 cy1] :c1 [cx2 cy2] :c2 :keys [style]}]
     (compile-leaf {:style style
                    :pre   [(call "moveTo" x1 y1)]
-                   :draw  [(call "bezierCurveTo" cx1 cy1 cx2 cy2 x2 y2)]})))
+                   :draw  [(call "bezierCurveTo" cx1 cy1 cx2 cy2 x2 y2)]
+                   :post [*stroke]})))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;; Execution Logic
