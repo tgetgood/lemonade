@@ -391,8 +391,8 @@
   (inspect [i] i))
 
 (defn code
-  "Returns a vector of strings which represents the code that gets executed on
-  the canvas context in attempting to draw the given shape."
+  "Returns a vector of strings which represents the code that will be executed
+  on the CanvasContext2d to draw the given shape."
   [shape]
   (transduce (comp stack-tx (map inspect) (remove nil?))
              conj
