@@ -37,6 +37,42 @@ Check out [[https://github.com/tgetgood/expanse][Expanse]] to see it in use.
 	components. You can determine the exact pixel coordinates of any shape or the
 	colour of any pixel without rendering anything. At least in principle. Lemonade
 	itself needs some heavy testing to make sure this is true.
+* Working on
+** Regions
+	 User defined regions can be tricky.
+
+	 The systems I know (processing, canvas, opengl) require you to draw a region
+	 explicitly. That is you declare you're starting a region, draw a bunch of
+	 curves and then eclare you've finished the region. This gets compiled into
+	 special code that uses winding number calculations to separate the inside
+	 from the outside.
+
+	 I don't want that. I want you to be able to define a path, and then
+	 concatenate that path with transformations of itself or other paths, and then
+	 tell the compiler when you expect the path to have closed. This is dynamic in
+	 the sense that you might be wrong and it will trigger a runtime error.
+
+	 It's basically impossible to compose shapes if they have to be defined at
+	 compile time.
+
+	 Something like
+	 #+BEGIN_SRC:
+	 (l/with-style {:fill :blue}
+		 [s
+			(l/rotate s 90)
+			(l/reflect s corner [1 1])
+			bottom-curve])
+	 #+END_SRC:
+
+	 Should be all you need to specify to get a blue shape with the complex
+	 boundary specified. If they boundary isn't closed, we have an error and I
+	 have to think about what to do there. As is, the fill just doesn't happen,
+	 which I think is good enough for now.
+** Shape algebra
+	 Unions, intesections, and differences of shapes should produce first class
+	 shapes. As is, I can only render them directly, if they end up deep in a
+	 nested data structure, I can't do much with them.
+
 * License
 	Copyright © 2018 Thomas Getgood
 
