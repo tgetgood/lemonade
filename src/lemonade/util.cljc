@@ -19,9 +19,9 @@
 
 (macros/deftime
   (defmacro implement-sequentials
-    {:style/indent [1 :form [1]]}
     "Generates boilerplate to implement a protocol identically for all
      sequential things."
+    {:style/indent [1 :form [1]]}
     [prot & methods]
     (let [types (macros/case :cljs '[List
                                      LazySeq
