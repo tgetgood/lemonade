@@ -1,7 +1,8 @@
 (ns lemonade.core
   (:require [clojure.string :as string]
             [lemonade.lang :as lang :refer [Vectorial]]
-            [lemonade.math :as math])
+            [lemonade.math :as math]
+            [net.cgrand.macrovich :as macros :include-macros true])
   #?(:cljs (:require-macros [lemonade.core :refer [deftemplate]])))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -32,9 +33,9 @@
   [sym]
   (symbol (apply str (map string/capitalize (string/split (name sym) #"-")))))
 
-#?(:clj
-   (defmacro deftemplate
-     "Defines a new shape template. Creates a new record whose name is
+(macros/deftime
+  (defmacro deftemplate
+    "Defines a new shape template. Creates a new record whose name is
   instance-name converted to UpperCamelCase as per record naming conventions.
 
   The canonical instance of the new template will be bound to instance-name.
@@ -44,24 +45,25 @@
   (template or otherwise).
 
   Optionally impls are protocol implementations as per defrecord."
-     [instance-name template expansion & impls]
-     (let [template-name (type-case instance-name)
-           fields (map (comp symbol name) (keys template))]
-       `(do
-          ;; TODO: I can generate a spec from the field list and then check it's
-          ;; valid at expansion time. I think that would be a good place to find
-          ;; errors.
-          ;;
-          ;; The problem is that adding a spec/def into this macro expansion
-          ;; causes the whole thing to go haywire even though the relevant parts
-          ;; of the expansion don't change at all...
-          (defrecord ~template-name [~@fields]
-            lemonade.core/ITemplate
-            (lemonade.core/expand-template [this#]
-              ~expansion)
-            ~@impls)
-          (def ~instance-name
-            (~(symbol (str "map->" template-name)) ~template))))))
+    {:style/indent [1 [1]]}
+    [instance-name template expansion & impls]
+    (let [template-name (type-case instance-name)
+          fields (map (comp symbol name) (keys template))]
+      `(do
+         ;; TODO: I can generate a spec from the field list and then check it's
+         ;; valid at expansion time. I think that would be a good place to find
+         ;; errors.
+         ;;
+         ;; The problem is that adding a spec/def into this macro expansion
+         ;; causes the whole thing to go haywire even though the relevant parts
+         ;; of the expansion don't change at all...
+         (defrecord ~template-name [~@fields]
+           lemonade.core/ITemplate
+           (lemonade.core/expand-template [this#]
+             ~expansion)
+           ~@impls)
+         (def ~instance-name
+           (~(symbol (str "map->" template-name)) ~template))))))
 
 (defn ^boolean template? [shape]
   (satisfies? ITemplate shape))
