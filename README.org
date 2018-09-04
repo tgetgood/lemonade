@@ -72,7 +72,12 @@ Check out [[https://github.com/tgetgood/expanse][Expanse]] to see it in use.
 	 Unions, intesections, and differences of shapes should produce first class
 	 shapes. As is, I can only render them directly, if they end up deep in a
 	 nested data structure, I can't do much with them.
-
+** The Name
+	 Lemonade is a bad pun on the W3C giving you a lemon. Canvas actually isn't
+	 that bad compared to everything else out there, but that's beside the
+	 point. It's a flat name.
+*** Candidates
+		Falloleen - Don't ask, just a pretty and unique name.
 * References
 	[[http://eprints.soton.ac.uk/257577/1/funcgeo2.pdf][Functional Geometry]]
 	[[https://www.microsoft.com/en-us/research/wp-content/uploads/2016/01/picture.pdf][Pictures: A Simple Strutured Graphics Model]]
