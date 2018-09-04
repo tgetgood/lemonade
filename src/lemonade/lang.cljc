@@ -68,27 +68,35 @@
     (when (every? number? this)
       this)))
 
+(extend-type
+    #?(:clj Number
+       :cljs number)
+  LinearAlgebra
+  (dimension [_] 0)
+  (v+ [this other]
+    #?(:cljs (assert (number? other) (str (type other) " is not a number.")))
+    (cc/+ this other))
+  (neg [this]
+    (cc/- this))
+  (v- [this other]
+    #?(:cljs (assert (number? other) (str (type other) " is not a number.")))
+    (cc/- this other))
+  (left-mult [this other]
+    (cc/* other this)))
+
 (defn +
   ([] 0)
   ([x] x)
   ([x y]
-   (cond
-     (number? x) (cc/+ x y)
-     (vector? x) (v+ (vectorise x) y)
-     :else nil))
+   (v+ x y))
   ([x y & more]
    (reduce + (+ x y) more)))
 
 (defn -
   ([x]
-   (cond
-     (vector? x) (neg (vectorise x))
-     :else       (cc/- x)))
+   (neg x))
   ([x y]
-   (cond
-     (number? x) (cc/- x y)
-     (vector? x) (v+ (vectorise x) (neg (vectorise y)))
-     :else       nil))
+   (v- x y))
   ([x y & more]
    (reduce - (- x y) more)))
 
@@ -96,9 +104,6 @@
   ([] 1)
   ([x] x)
   ([x y]
-   (cond
-     (number? y) (cc/* x y)
-     (vector? y) (left-mult (vectorise y) x)
-     :else nil))
+   (left-mult y x))
   ([x y & more]
    (reduce * (* x y) more)))
